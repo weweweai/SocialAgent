@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>九型人格坐骑×MBTI 性格测试</title>
+<style>
+/* ── Design tokens (light/white system) ── */
+:root{
+  --bg:       #ffffff;
+  --s1:       #f7f7fc;
+  --s2:       #edecf5;
+  --s3:       #e2e1ef;
+  --b0:       rgba(0,0,0,0.04);
+  --b1:       rgba(0,0,0,0.08);
+  --b2:       rgba(0,0,0,0.14);
+  --t1:       #111113;
+  --t2:       #38384e;
+  --t3:       #68688a;
+  --acc:      #e05260;
+  --acc-dk:   #b03040;
+  --gold:     #b8860b;
+  --grn:      #16a34a;
+  --grn-dk:   #15803d;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:600px;min-height:600px;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--t1);overflow-x:hidden}
+.screen{display:none;flex-direction:column;align-items:center;min-height:600px;padding:22px}
+.screen.active{display:flex}
+/* Top bar */
+.topbar{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.topbar-label{font-size:12px;color:var(--t3);font-weight:600;letter-spacing:0.3px}
+.lang-select{background:var(--s2);border:1px solid var(--b2);color:var(--t2);padding:4px 8px;border-radius:6px;font-size:12px;cursor:pointer}
+.lang-select:focus{outline:none;border-color:var(--b2)}
+/* Intro */
+.intro-title{font-size:24px;font-weight:900;text-align:center;margin-bottom:6px;background:linear-gradient(135deg,var(--grn),var(--grn-dk));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.intro-sub{font-size:12px;color:var(--t3);text-align:center;margin-bottom:22px}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin-bottom:20px}
+.feature-card{background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:14px;text-align:center}
+.feature-card .label{font-size:13px;font-weight:700;color:var(--grn);margin-bottom:3px}
+.feature-card .sub{font-size:11px;color:var(--t3)}
+.btn-primary{background:linear-gradient(135deg,var(--grn),var(--grn-dk));color:#fff;border:none;padding:15px 32px;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;width:100%;margin-bottom:10px;letter-spacing:0.5px;transition:opacity 0.15s}
+.btn-primary:hover{opacity:0.85}
+.btn-secondary{background:transparent;color:var(--grn);border:1px solid rgba(34,197,94,0.35);padding:10px 20px;border-radius:8px;font-size:13px;cursor:pointer;width:100%;transition:all 0.15s}
+.btn-secondary:hover{border-color:rgba(34,197,94,0.65);color:#15803d}
+.ennea-desc{background:var(--s1);border:1px solid var(--b0);border-radius:10px;padding:12px;font-size:11px;color:var(--t3);line-height:1.6;margin-bottom:16px;width:100%}
+/* Gender */
+.section-title{font-size:19px;font-weight:800;text-align:center;margin-bottom:8px;color:var(--t1)}
+.section-sub{font-size:12px;color:var(--t3);text-align:center;margin-bottom:22px}
+.gender-row{display:flex;gap:14px;width:100%;margin-bottom:18px}
+.gender-card{flex:1;background:var(--s1);border:2px solid var(--b1);border-radius:14px;padding:22px 10px;text-align:center;cursor:pointer;transition:all 0.2s}
+.gender-card:hover,.gender-card.selected{border-color:var(--b2);background:var(--s2);box-shadow:0 0 20px rgba(0,0,50,0.10)}
+.gender-card .icon{font-size:34px;margin-bottom:8px}
+.gender-card .name{font-size:14px;font-weight:700;color:var(--grn)}
+.back-btn{background:none;border:none;color:var(--t3);font-size:13px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:color 0.15s}
+.back-btn:hover{color:var(--t2)}
+/* Quiz */
+.progress-bar{width:100%;height:4px;background:var(--s2);border-radius:3px;margin-bottom:22px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--acc),var(--gold));border-radius:3px;transition:width 0.3s}
+.question-counter{font-size:12px;color:var(--t3);margin-bottom:8px;align-self:flex-start}
+.question-text{font-size:17px;font-weight:700;text-align:center;margin-bottom:6px;line-height:1.5;color:var(--t1)}
+.question-sub{font-size:11px;color:var(--t3);text-align:center;margin-bottom:18px}
+.poles-row{display:flex;justify-content:space-between;width:100%;margin-bottom:10px}
+.pole-a{font-size:12px;color:#15803d;font-weight:600}
+.pole-b{font-size:12px;color:#0f766e;font-weight:600}
+.answer-btns{display:flex;gap:6px;width:100%;margin-bottom:18px}
+.ans-btn{flex:1;padding:13px 4px;border:1.5px solid rgba(34,197,94,0.25);border-radius:9px;background:var(--s1);color:var(--t2);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s;text-align:center}
+.ans-btn:hover{transform:translateY(-2px);background:rgba(34,197,94,0.10);border-color:rgba(34,197,94,0.55)}
+.ans-btn.str-a{border-color:#15803d;color:#14532d}
+.ans-btn.weak-a{border-color:#16a34a;color:#166534}
+.ans-btn.sl-a{border-color:#22c55e;color:#15803d}
+.ans-btn.sl-b{border-color:#0d9488;color:#134e4a}
+.ans-btn.weak-b{border-color:#0891b2;color:#155e75}
+.ans-btn.str-b{border-color:#06b6d4;color:#164e63}
+.ans-label{font-size:9px;font-weight:500;opacity:0.7;margin-top:3px}
+/* Result card */
+.result-card{background:var(--s1);border:1px solid var(--b1);border-radius:18px;overflow:hidden;width:100%;margin-bottom:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12)}
+.avatar-header{padding:0;text-align:center;position:relative;overflow:hidden}
+.avatar-img{width:100%;aspect-ratio:1/1;border-radius:0;display:block;margin:0;object-fit:cover;object-position:center top}
+.type-badge{position:absolute;bottom:14px;right:16px;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:14px;font-weight:900;padding:5px 13px;border-radius:8px;letter-spacing:1.5px}
+.result-body{padding:18px 20px 20px;background:var(--s1)}
+.result-name{font-size:22px;font-weight:900;color:var(--t1);margin-bottom:3px}
+.result-char{font-size:12px;color:var(--t3);margin-bottom:12px}
+.tags-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tag-animal{background:rgba(224,82,96,0.15);border:1px solid rgba(224,82,96,0.4);color:var(--acc);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+.tag-type{background:rgba(212,168,64,0.12);border:1px solid rgba(212,168,64,0.35);color:var(--gold);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.tag-ennea{background:var(--s2);border:1px solid var(--b1);color:var(--t2);font-size:11px;padding:3px 10px;border-radius:20px}
+.result-section-label{font-size:10px;color:var(--t3);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.8px;font-weight:600}
+.result-desc{background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:14px;font-size:12px;color:var(--t2);line-height:1.75;margin-bottom:14px}
+.sbti-block{border:1px solid var(--b1);border-radius:12px;padding:14px;background:var(--s2)}
+.sbti-title{font-size:13px;font-weight:800;color:var(--t1);margin-bottom:6px}
+.sbti-desc{font-size:11px;color:var(--t2);line-height:1.65}
+.disclaimer{border-top:1px solid var(--b0);padding:12px 20px;text-align:center}
+.disclaimer-text{font-size:10px;color:var(--t3)}
+.disclaimer-site{font-size:11px;font-weight:700;color:var(--acc);margin-top:2px}
+/* Result actions */
+.result-actions{display:flex;flex-direction:column;gap:8px;width:100%;padding-bottom:12px}
+.dl-row{display:flex;gap:8px;width:100%}
+.btn-share{background:linear-gradient(135deg,var(--grn),var(--grn-dk));color:#fff;border:none;padding:12px 8px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;flex:1;transition:opacity 0.15s}
+.btn-share:hover{opacity:0.85}
+.btn-retake{background:transparent;color:var(--grn);border:1.5px solid rgba(34,197,94,0.40);padding:11px;border-radius:10px;font-size:13px;cursor:pointer;width:100%;transition:all 0.15s}
+.btn-retake:hover{background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.70);color:#15803d}
+
+/* Detail blocks (animal + color) */
+.detail-blocks{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.detail-item{background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:12px 14px}
+.box-label{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600;margin-bottom:4px}
+.box-val{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.box-sub{font-size:11px;color:var(--t2);line-height:1.6}
+/* Trait rows */
+.trait-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
+.trait-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.trait-text{font-size:12px;color:var(--t2);line-height:1.6}
+.disclaimer-note{font-size:10px;color:var(--t3)}
+</style>
+</head>
+<body>
+
+<!-- INTRO SCREEN -->
+<div id="screen-intro" class="screen active">
+  <div class="topbar">
+    <span class="topbar-label">weweweai · MBTI</span>
+    <select class="lang-select" id="langSelect">
+      <option value="en" selected>English</option>
+      <option value="zh_CN">中文简</option>
+      <option value="zh_TW">中文繁</option>
+      <option value="ja">日本語</option>
+      <option value="ko">한국어</option>
+      <option value="es">Español</option>
+      <option value="pt">Português</option>
+      <option value="vi">Tiếng Việt</option>
+      <option value="fr">Français</option>
+      <option value="de">Deutsch</option>
+    </select>
+  </div>
+  <div class="intro-title" id="intro-title">九型人格坐骑×MBTI测试</div>
+  <div class="intro-sub" id="intro-sub">9道题。九型人格 × MBTI 深度融合。16种动漫原型。</div>
+  <div class="feature-grid">
+    <div class="feature-card"><div class="label" id="f1label">九道问答题</div><div class="sub" id="f1sub">一分钟内即时结束</div></div>
+    <div class="feature-card"><div class="label" id="f2label">神兽坐骑骑士</div><div class="sub" id="f2sub">你的社交AI agent形象</div></div>
+    <div class="feature-card"><div class="label" id="f3label">九型人格×MBTI</div><div class="sub" id="f3sub">注入到你的AI agent中</div></div>
+    <div class="feature-card"><div class="label" id="f4label">即时结果</div><div class="sub" id="f4sub">1分钟以内</div></div>
+  </div>
+  <div class="ennea-desc" id="ennea-desc"></div>
+  <button class="btn-primary" id="btn-start">开始测试</button>
+  <button class="btn-secondary" id="btn-open-site">访问 weweweai.com 完整体验</button>
+</div>
+
+<!-- GENDER SCREEN -->
+<div id="screen-gender" class="screen">
+  <div class="topbar">
+    <button class="back-btn" id="btn-back-intro">← 返回</button>
+    <select class="lang-select" id="langSelect2">
+      <option value="en" selected>English</option>
+      <option value="zh_CN">中文简</option>
+      <option value="zh_TW">中文繁</option>
+      <option value="ja">日本語</option>
+      <option value="ko">한국어</option>
+      <option value="es">Español</option>
+      <option value="pt">Português</option>
+      <option value="vi">Tiếng Việt</option>
+      <option value="fr">Français</option>
+      <option value="de">Deutsch</option>
+    </select>
+  </div>
+  <div class="section-title" id="gender-title">选择你的角色性别</div>
+  <div class="section-sub" id="gender-sub">决定你获得哪位骑士坐骑角色</div>
+  <div class="gender-row">
+    <div class="gender-card" id="card-male">
+      <div class="icon">⚔️</div>
+      <div class="name" id="gender-male">男生</div>
+    </div>
+    <div class="gender-card" id="card-female">
+      <div class="icon">🌸</div>
+      <div class="name" id="gender-female">女生</div>
+    </div>
+  </div>
+  <button class="btn-primary" id="btn-confirm-gender" style="opacity:0.4;pointer-events:none">确认，开始答题</button>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div id="screen-quiz" class="screen">
+  <div class="topbar">
+    <button class="back-btn" id="btn-back-gender">← 返回</button>
+    <span class="question-counter" id="q-counter">第 1 题 / 共 9 题</span>
+    <button class="back-btn" id="btn-reset">重新开始</button>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  <div class="question-text" id="q-text"></div>
+  <div class="question-sub" id="q-sub">从左到右代表倾向程度</div>
+  <div class="poles-row">
+    <span class="pole-a" id="q-a-label"></span>
+    <span class="pole-b" id="q-b-label"></span>
+  </div>
+  <div class="answer-btns" id="answer-btns">
+    <button class="ans-btn str-a" data-score="1"><div>A+++</div><div class="ans-label">极度A</div></button>
+    <button class="ans-btn weak-a" data-score="2"><div>A++</div><div class="ans-label">强烈A</div></button>
+    <button class="ans-btn sl-a" data-score="3"><div>A+</div><div class="ans-label">偏向A</div></button>
+    <button class="ans-btn sl-b" data-score="4"><div>B+</div><div class="ans-label">偏向B</div></button>
+    <button class="ans-btn weak-b" data-score="5"><div>B++</div><div class="ans-label">强烈B</div></button>
+    <button class="ans-btn str-b" data-score="6"><div>B+++</div><div class="ans-label">极度B</div></button>
+  </div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div id="screen-result" class="screen">
+  <div class="topbar" style="margin-bottom:8px">
+    <span class="topbar-label" id="result-screen-label">Results</span>
+    <button class="back-btn" id="btn-retake-top">重新测试</button>
+  </div>
+  <div class="result-card" id="result-card">
+    <!-- filled by JS -->
+  </div>
+  <div class="result-actions">
+    <div class="dl-row">
+      <button class="btn-share" id="btn-dl-avatar">⬇ 头像</button>
+      <button class="btn-share" id="btn-dl-card">⬇ 测试结果</button>
+    </div>
+    <button class="btn-retake" id="btn-visit-site">weweweai.com</button>
+  </div>
+</div>
+
+<script src="../lib/html2canvas.min.js"></script>
+<script src="quiz.js"></script>
+</body>
+</html>

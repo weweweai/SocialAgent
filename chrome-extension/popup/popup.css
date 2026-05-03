@@ -1,0 +1,374 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 360px;
+  min-height: 420px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #ffffff;
+  color: #1a1a2e;
+  overflow: hidden;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.logo-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  padding: 16px 18px;
+  overflow-y: auto;
+}
+
+/* Toggle Switch (header) */
+.toggle-switch-small {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.toggle-switch-small input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider-small {
+  position: absolute;
+  inset: 0;
+  background: #9ca3af;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.toggle-slider-small::before {
+  content: "";
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.toggle-switch-small input:checked + .toggle-slider-small {
+  background: #a855f7;
+}
+
+.toggle-switch-small input:checked + .toggle-slider-small::before {
+  transform: translateX(16px);
+}
+
+/* Translation Mode Card */
+.translate-mode-card {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #f8f9fa;
+  margin-bottom: 12px;
+}
+
+.mode-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.mode-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.mode-badge.free {
+  background: rgba(34, 197, 94, 0.15);
+  color: #16a34a;
+}
+
+.mode-default-tag {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.mode-powered {
+  font-size: 12px;
+  color: #1a1a2e;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.mode-desc {
+  font-size: 11px;
+  color: #64748b;
+  margin-bottom: 14px;
+}
+
+/* Settings */
+.free-mode-settings {
+  margin-bottom: 14px;
+}
+
+.setting-item {
+  padding: 11px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.setting-item label {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 7px;
+  font-weight: 500;
+}
+
+.setting-item select {
+  width: 100%;
+  padding: 9px 11px;
+  background: #f8f9fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #1a1a2e;
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+}
+
+.setting-item select:focus {
+  border-color: #a855f7;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 12px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+  color: #a855f7;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #64748b;
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-decoration: none;
+  color: #1a1a2e;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-link:hover {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.06);
+  color: #7c3aed;
+}
+
+.nav-link-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.nav-link-text {
+  flex: 1;
+}
+
+.nav-link-arrow {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.nav-link-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 8px;
+  background: rgba(168, 85, 247, 0.12);
+  color: #7c3aed;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+}
+
+.nav-link-local {
+  border-color: rgba(168, 85, 247, 0.3);
+  background: rgba(168, 85, 247, 0.04);
+}
+
+.nav-link-local:hover {
+  background: rgba(168, 85, 247, 0.12);
+}
+
+/* Footer */
+.footer {
+  padding: 12px 18px;
+  background: #f8f9fa;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.footer-link {
+  color: #a855f7;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.88);
+  border-radius: 8px;
+  font-size: 12px;
+  color: #ffffff;
+  z-index: 1000;
+  white-space: nowrap;
+}
+
+.toast.hidden {
+  display: none;
+}
+
+.toast.success {
+  border-left: 3px solid #22c55e;
+}
+
+.toast.error {
+  border-left: 3px solid #ef4444;
+}
+
+/* Eye Preview button */
+.nav-link-eye-preview {
+  border-color: rgba(16, 185, 129, 0.35);
+  background: rgba(16, 185, 129, 0.05);
+}
+.nav-link-eye-preview:hover {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+.nav-badge-eye {
+  background: rgba(16, 185, 129, 0.15);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* ── Eye Protection Card ───────────────────────────────────────────────── */
+.eye-card {
+  background: #f0fdf4;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.eye-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.eye-card-icon { font-size: 16px; }
+.eye-card-title {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 700;
+  color: #065f46;
+}
+.eye-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.eye-next-hint {
+  font-size: 11px;
+  color: #6b7280;
+  padding-left: 2px;
+}
+.eye-next-hint span {
+  font-weight: 700;
+  color: #059669;
+}

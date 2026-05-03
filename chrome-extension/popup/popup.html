@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>weweweai Translator</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="app">
+    <header class="header">
+      <div class="logo">
+        <img src="../icons/icon48.png" alt="weweweai" class="logo-img">
+        <span class="logo-text">weweweai</span>
+      </div>
+      <label class="toggle-switch-small" title="Enable / Disable translation">
+        <input type="checkbox" id="toggle-enabled" checked>
+        <span class="toggle-slider-small"></span>
+      </label>
+    </header>
+
+    <main class="main-content">
+
+      <!-- Google Free mode card -->
+      <div class="translate-mode-card google-free-mode">
+        <div class="mode-header">
+          <div class="mode-badge free">Free</div>
+          <span class="mode-default-tag">Default</span>
+        </div>
+        <p class="mode-powered">powered by Google Translate</p>
+        <p class="mode-desc">Unlimited translations · No API key required</p>
+
+        <div class="free-mode-settings">
+          <div class="setting-item">
+            <label for="google-target-language">Translate to</label>
+            <select id="google-target-language">
+              <option value="zh-CN" selected>Simplified Chinese</option>
+              <option value="zh-TW">Traditional Chinese</option>
+              <option value="ja">Japanese</option>
+              <option value="ko">Korean</option>
+              <option value="vi">Vietnamese</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+              <option value="es">Spanish</option>
+              <option value="pt">Portuguese</option>
+              <option value="ar">Arabic</option>
+              <option value="ru">Russian</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat-item">
+            <span class="stat-number" id="translated-count">0</span>
+            <span class="stat-label">Tweets Translated</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="char-count">0</span>
+            <span class="stat-label">Characters Used</span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Eye Protection Settings -->
+      <div class="eye-card">
+        <div class="eye-card-header">
+          <span class="eye-card-icon">👁</span>
+          <span class="eye-card-title">Eye Protection</span>
+          <label class="toggle-switch-small" title="Enable / Disable eye protection">
+            <input type="checkbox" id="toggle-eye-enabled" checked>
+            <span class="toggle-slider-small"></span>
+          </label>
+        </div>
+        <div class="eye-card-body">
+          <div class="setting-item">
+            <label for="eye-interval">Remind every</label>
+            <select id="eye-interval">
+              <option value="20">20 min</option>
+              <option value="30">30 min</option>
+              <option value="45" selected>45 min</option>
+              <option value="60">60 min</option>
+              <option value="90">90 min</option>
+              <option value="120">120 min</option>
+            </select>
+          </div>
+          <div class="eye-next-hint" id="eye-next-hint">Next reminder in <span id="eye-countdown">—</span></div>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="nav-links">
+        <button class="nav-link nav-link-local" id="btn-local-agent">
+          <span class="nav-link-icon">🧠</span>
+          <span class="nav-link-text">Local Social Agent</span>
+          <span class="nav-link-badge">Local</span>
+        </button>
+        <button class="nav-link nav-link-eye-preview" id="btn-eye-preview">
+          <span class="nav-link-icon">👁</span>
+          <span class="nav-link-text">Preview Eye Rest Overlay</span>
+          <span class="nav-link-badge nav-badge-eye">Preview</span>
+        </button>
+      </div>
+
+    </main>
+
+    <footer class="footer">
+      <a href="https://weweweai.com" target="_blank" class="footer-link">weweweai.com</a>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
